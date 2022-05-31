@@ -4,17 +4,39 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; This script assumes you have bound F7 to the "Collections" page.
+; 
+; It also requires a resolution of 1440p, or else you'll need to update all the pixel
+; coordinates.
+;
+; We will resupply our glimmer by buying some planetary material from Rahool with legendary
+; shards, and then buying glimmer with that planetary material. Rahool's inventory changes
+; daily at reset, so each day you have to figure out which of his two glimmer options matches
+; with which of his four planetary material options, and update the script below accordingly.
+; Find the subroutines immediately below called "RahoolBuyMaterial" and "RahoolBuyGlimmer".
+; In each one, there are 4 and 2 "Click" lines, respectively, corresponding to the various
+; options he sells. Comment out (put a ';' at the beginning) all but the one you want to buy,
+; and be sure the one you want to buy is uncommented (has no ';' before the "Click" line).
+;
+; To activate this, fly to the tower, stand in front of Rahool, and press F11 to start the
+; macro. To stop the macro and unload it, press Alt+F11. You'll need to re-load it (double
+; click it in Explorer) to be able to start it again.
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
 ; Only enable these hotkeys in Destiny
 #IfWinActive Destiny 2
 
 
-; Stop & unload macro with Alt+F11
-!F11::ExitApp
-
+; Allow panic close with Ctrl+Esc
+^Esc::ExitApp
 
 
 RahoolBuyMaterial:
-;;; Uncomment whichever slot is needed today
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ; 1st material slot
     Click, 1830 220
@@ -32,7 +54,6 @@ RahoolBuyMaterial:
 
 
 RahoolBuyGlimmer:
-;;; Uncomment whichever slot is needed today
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ; 1st glimmer slot
     Click, 1550 220
@@ -45,7 +66,7 @@ RahoolBuyGlimmer:
     return
 
 
-RahoolBuy500Material:
+RahoolBuy100Material:
     Loop, 100
     {
         GoSub, RahoolBuyMaterial
@@ -59,6 +80,27 @@ RahoolBuy250kGlimmer:
         GoSub, RahoolBuyGlimmer
     }
     return
+
+
+RefillGlimmer:
+    ; Interact with Rahool
+    Send, {f Down}
+    Sleep, 500
+    Send, {f Up}
+    Sleep, 3000
+
+    ; Buy 500 of whatever element is currently trading for glimmer
+    GoSub, RahoolBuy100Material
+
+    ; Fill up on glimmer
+    GoSub, RahoolBuy250kGlimmer
+
+    ; Back out of menu
+    Send, {Esc}
+    Sleep, 2000
+
+    return
+
 
 
 BuyItem:
@@ -155,35 +197,23 @@ PreventAFK:
 F11::
     Loop
     {
-        Sleep, 1000
-
-        ; Interact with Rahool
-        Send, {f Down}
-        Sleep, 500
-        Send, {f Up}
-        Sleep, 3000
-    
-        ; Buy 500 of whatever element is currently trading for glimmer
-        GoSub, RahoolBuy500Material
-
-        ; Fill up on glimmer
-        GoSub, RahoolBuy250kGlimmer
-
+        GoSub, RefillGlimmer
         GoSub, PreventAFK
-
 
         Loop, 100
         {
             GoSub, Buy9Items
             GoSub, PreventAFK
+
             GoSub, Delete9Items
             GoSub, PreventAFK
         }
-
-        ; Back out of menu
-        Send, {Esc}
-        Sleep, 1000
     }
 
     return
+
+
+; Stop macro
+!F11::ExitApp
+
 
