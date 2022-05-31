@@ -32,8 +32,11 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #IfWinActive Destiny 2
 
 
-; Allow panic close with Ctrl+Esc
-^Esc::ExitApp
+
+; Stop macro
+!F11::ExitApp
+
+
 
 
 RahoolBuyMaterial:
@@ -211,9 +214,4 @@ F11::
     }
 
     return
-
-
-; Stop macro
-!F11::ExitApp
-
 
