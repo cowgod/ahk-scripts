@@ -39,49 +39,57 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 
 
-RahoolBuyMaterial:
+RahoolHoverGlimmer:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ; 1st material slot
-    Click, 1830 220
-;    ; 2nd material slot
-;    Click, 1970 220
-;    ; 3rd material slot
-;    Click, 2080 220
-;    ; 4th material slot
-;    Click, 2220 220
+;    ; 1st glimmer slot
+;    Click, 1550 220 0
+    ; 2nd glimmer slot
+    Click, 1680 220 0
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     Sleep, 1000
-
+    
     return
 
 
-RahoolBuyGlimmer:
+RahoolHoverMaterial:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ; 1st glimmer slot
-    Click, 1550 220
-;    ; 2nd glimmer slot
-;    Click, 1680 220
+;    ; 1st material slot
+;    Click, 1830 220 0
+;    ; 2nd material slot
+;    Click, 1970 220 0
+;    ; 3rd material slot
+;    Click, 2080 220 0
+    ; 4th material slot
+    Click, 2220 220 0
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     Sleep, 1000
+    
+    return
+
+
+RahoolBuy250kGlimmer:
+    GoSub, RahoolHoverGlimmer
+
+    Loop, 25
+    {
+        Click
+        Sleep, 1000
+    }
 
     return
 
 
 RahoolBuy100Material:
+    GoSub, RahoolHoverMaterial
+
     Loop, 100
     {
-        GoSub, RahoolBuyMaterial
+        Click
+        Sleep, 1000
     }
-    return
 
-
-RahoolBuy250kGlimmer:
-    Loop, 25
-    {
-        GoSub, RahoolBuyGlimmer
-    }
     return
 
 
@@ -108,7 +116,7 @@ RefillGlimmer:
 
 BuyItem:
     Click, Down
-    Sleep, 4000
+    Sleep, 4100
     Click, Up
     Sleep, 100
     return
@@ -116,7 +124,7 @@ BuyItem:
 
 DeleteItem:
     Send, {f Down}
-    Sleep, 1500
+    Sleep, 1600
     Send, {f Up}
     Sleep, 100
     return
@@ -125,7 +133,7 @@ DeleteItem:
 Buy9Items:
     ; Send key to open Collections
     Send, {F7}
-    Sleep, 1000
+    Sleep, 2000
 
     ; Click on "Armor"
     Click, 1200 600 0
@@ -157,7 +165,7 @@ Buy9Items:
 
     ; Return to main screen
     Send, {F1}
-    Sleep, 1500  
+    Sleep, 2000
 
     return
 
@@ -183,7 +191,7 @@ Delete9Items:
 
     ; Return to main screen
     Send, {F1}
-    Sleep, 1500  
+    Sleep, 2000  
 
     return
 
@@ -203,7 +211,11 @@ F11::
         GoSub, RefillGlimmer
         GoSub, PreventAFK
 
-        Loop, 100
+        ; One item costs 777 glimmer. Sharding it returns 250 glimmer, so
+        ; the net cost is 527 per item. One loop of buying & sharding 9x
+        ; items costs 4743 glimmer. So to spend 250k glimmer, it will
+        ; take 52 loops.
+        Loop, 52
         {
             GoSub, Buy9Items
             GoSub, PreventAFK
@@ -214,4 +226,5 @@ F11::
     }
 
     return
+
 
