@@ -15,7 +15,7 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ; shards, and then buying glimmer with that planetary material. Rahool's inventory changes
 ; daily at reset, so each day you have to figure out which of his two glimmer options matches
 ; with which of his four planetary material options, and update the script below accordingly.
-; Find the subroutines immediately below called "RahoolBuyMaterial" and "RahoolBuyGlimmer".
+; Find the subroutines immediately below called "RahoolHoverMaterial" and "RahoolHoverGlimmer".
 ; In each one, there are 4 and 2 "Click" lines, respectively, corresponding to the various
 ; options he sells. Comment out (put a ';' at the beginning) all but the one you want to buy,
 ; and be sure the one you want to buy is uncommented (has no ';' before the "Click" line).
