@@ -257,8 +257,8 @@ F11::
     setTimer, WinCheck, 500
     Loop
     {
-;        GoSub, RefillGlimmer
-;        GoSub, PreventAFK
+        GoSub, RefillGlimmer
+        GoSub, PreventAFK
 
         ; One item costs 777 glimmer. Sharding it returns 250 glimmer, so
         ; the net cost is 527 per item. One loop of buying & sharding 9x
