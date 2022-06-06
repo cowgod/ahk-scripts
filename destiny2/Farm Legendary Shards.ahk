@@ -62,7 +62,6 @@ MouseMove(X,Y)
 
 
 ; Stop macro
-;!F11::ExitApp
 !F11::reload
 
 
@@ -135,7 +134,7 @@ RefillGlimmer:
     ; Fill up on glimmer
     GoSub, RahoolBuy250kGlimmer
 
-    ; Back out of menu
+    ; Return to main screen
     Send, {Esc}
     Sleep, 2000
 
@@ -202,8 +201,11 @@ Buy9Items:
     }
 
     ; Return to main screen
-    Send, {%Character_Screen_Keybind%}
-    Sleep, 2000
+    Send, {Esc}
+    Sleep, 1500
+
+    Send, {Esc}
+    Sleep, 1500
 
     return
 
@@ -228,8 +230,8 @@ Delete9Items:
     }
 
     ; Return to main screen
-    Send, {%Character_Screen_Keybind%}
-    Sleep, 2000  
+    Send, {Esc}
+    Sleep, 1500
 
     return
 
@@ -255,8 +257,8 @@ F11::
     setTimer, WinCheck, 500
     Loop
     {
-        GoSub, RefillGlimmer
-        GoSub, PreventAFK
+;        GoSub, RefillGlimmer
+;        GoSub, PreventAFK
 
         ; One item costs 777 glimmer. Sharding it returns 250 glimmer, so
         ; the net cost is 527 per item. One loop of buying & sharding 9x
